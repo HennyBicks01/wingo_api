@@ -1,0 +1,124 @@
+[gd_scene load_steps=11 format=3 uid="uid://blby8nb0iwdke"]
+
+[ext_resource type="Script" path="res://scripts/title.gd" id="1_0fiy5"]
+[ext_resource type="Shader" path="res://shaders/wobble.gdshader" id="2_wes76"]
+
+[sub_resource type="Gradient" id="Gradient_d214u"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_ynp1b"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_jbah3"]
+color_ramp = SubResource("Gradient_d214u")
+noise = SubResource("FastNoiseLite_ynp1b")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_8o53d"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_torlf"]
+noise = SubResource("FastNoiseLite_8o53d")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_oev3c"]
+shader = ExtResource("2_wes76")
+shader_parameter/color = Color(1, 1, 1, 1)
+shader_parameter/lineWidth = 2.0
+shader_parameter/size = Vector2(25, 20)
+shader_parameter/edge_fade = 1.0
+shader_parameter/wave_speed = 1.5
+shader_parameter/noise = SubResource("NoiseTexture2D_jbah3")
+shader_parameter/noise2 = SubResource("NoiseTexture2D_torlf")
+
+[sub_resource type="FontVariation" id="FontVariation_xgcdf"]
+variation_face_index = 3
+variation_embolden = -0.27
+opentype_features = {
+1869509997: 0,
+1936928817: 1
+}
+
+[sub_resource type="LabelSettings" id="LabelSettings_8khf2"]
+font = SubResource("FontVariation_xgcdf")
+font_size = 125
+font_color = Color(0.256539, 0.306501, 0.575117, 1)
+outline_size = 15
+outline_color = Color(0.913388, 0.915539, 0.932951, 1)
+shadow_size = 0
+
+[node name="Title" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_0fiy5")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.913388, 0.915539, 0.932951, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_oev3c")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -178.0
+offset_top = -174.0
+offset_right = 180.0
+offset_bottom = -37.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "WINGO"
+label_settings = SubResource("LabelSettings_8khf2")
+horizontal_alignment = 1
+
+[node name="ButtonContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = 19.0
+offset_right = 150.0
+offset_bottom = 250.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 15
+
+[node name="SinglePlayerButton" type="Button" parent="ButtonContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Single Player"
+
+[node name="MultiplayerButton" type="Button" parent="ButtonContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Multiplayer"
+
+[node name="TeamBattleButton" type="Button" parent="ButtonContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+disabled = true
+text = "Team Battle"
+
+[node name="RankedButton" type="Button" parent="ButtonContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+disabled = true
+text = "Ranked"

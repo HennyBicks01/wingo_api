@@ -1,0 +1,98 @@
+[gd_scene load_steps=10 format=3 uid="uid://ilrlebjxgape"]
+
+[ext_resource type="Script" path="res://scripts/game.gd" id="1_a08hc"]
+[ext_resource type="Shader" path="res://shaders/wobble.gdshader" id="2_7noss"]
+[ext_resource type="Script" path="res://scripts/wiki_content.gd" id="3_kl4m2"]
+
+[sub_resource type="Gradient" id="Gradient_h42fn"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_q3skk"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_86kb1"]
+in_3d_space = true
+seamless = true
+seamless_blend_skirt = 1.0
+color_ramp = SubResource("Gradient_h42fn")
+noise = SubResource("FastNoiseLite_q3skk")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_hhkr0"]
+frequency = 0.0125
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_1q7aj"]
+in_3d_space = true
+seamless = true
+seamless_blend_skirt = 1.0
+noise = SubResource("FastNoiseLite_hhkr0")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4gfu5"]
+shader = ExtResource("2_7noss")
+shader_parameter/color = Color(1, 1, 1, 1)
+shader_parameter/lineWidth = 1.0
+shader_parameter/size = Vector2(30, 20)
+shader_parameter/edge_fade = 1.0
+shader_parameter/wave_speed = 0.7
+shader_parameter/noise = SubResource("NoiseTexture2D_86kb1")
+shader_parameter/noise2 = SubResource("NoiseTexture2D_1q7aj")
+
+[node name="Game" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_a08hc")
+
+[node name="Background" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="Background"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.913388, 0.915539, 0.932951, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="Background"]
+material = SubResource("ShaderMaterial_4gfu5")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BingoBoard" type="GridContainer" parent="."]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 620.0
+offset_bottom = 620.0
+theme_override_constants/h_separation = 5
+theme_override_constants/v_separation = 5
+columns = 5
+
+[node name="WikiContent" type="ScrollContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 640.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="WikiContent"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("3_kl4m2")
